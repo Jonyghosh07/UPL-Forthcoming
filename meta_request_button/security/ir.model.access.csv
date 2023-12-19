@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+meta_request_button_access_product_requests,access_product_requests,model_product_requests,,1,1,1,1
+meta_request_remark_access_request_remark,access_remark_request,model_request_remark,,1,1,1,1

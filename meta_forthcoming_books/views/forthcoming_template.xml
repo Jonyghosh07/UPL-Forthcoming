@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <template id="same_forthcoming_products_template" inherit_id="website_sale.product">
+        <xpath expr="//section[@id='product_detail']" position="after">
+            <section>
+                <div class="container">
+                    <div style="text-align: center; position: relative;">
+                        <h3 class="h3_01">FORTHCOMING</h3>
+                    </div>
+                    <t t-call="meta_forthcoming_books.forthcoming_product_carousel_template"/>
+                </div>
+            </section>
+        </xpath>
+    </template> -->
+
+    <template id="forthcoming_pc" inherit_id="website.snippets" name="forthcoming_pc">
+        <xpath expr="//div[@id='snippet_effect']/div[hasclass('o_panel_body')]" position="inside">
+            <t t-snippet="meta_forthcoming_books.forthcoming_carousel_template" />
+        </xpath>
+    </template>
+
+    <template id="forthcoming_carousel_template" name="Forthcoming Books">
+        <section class="forthcoming_carousel_template pt24 pb24">
+            <div class="container">
+
+            </div>
+        </section>
+    </template>
+
+    <template id="forthcoming_product_carousel_template">
+        <div class="forthcoming_prods_main">
+            <div class="container">
+                <div style="text-align: center; position: relative;">
+                    <h2 class="h3_01">FORTHCOMING</h2>
+                </div>
+                <div class="left_prev_button">
+                    <button
+                        class="js_slide_prev_forth fa fa-chevron-left tp-icon-center-forth dr-p-icon_forth shadow">
+                    </button>
+                </div>
+                <div class="slider_forth">
+                    <div class="slide-track_forth">
+                        <!-- ============= to duplicate the image div =============== -->
+                        <!--                    <t t-foreach="[1,2,3]" t-as="i">-->
+                        <!-- ============= to loop through images =============== -->
+                        <t t-foreach="datas" t-as="product">
+                            <div class="slide_forth">
+                                <div class="slide_card_forth">
+                                    <input class="_product_id" type="hidden" name="product-id"
+                                        t-att-data-product-id="product.get('prod_prod_id')" />
+                                    <div class="row">
+                                        <!-- First Column: Image and Link -->
+                                        <div class="div_image">
+                                            <a t-att-href="product.get('website_url')"
+                                                target="_blank"
+                                                class="text-decoration-none image_link">
+                                                <img class="slider-image_forth"
+                                                    t-att-src="'/web/image?model=product.template&amp;id=' + str(product.get('id', '')) + '&amp;field=image_512'" />
+                                            </a>
+                                        </div>
+
+                                        <div class="div_main_detail"
+                                            style="display: grid; grid-template-rows: min-content auto min-content;">
+                                            <div class="div_details">
+                                                <a t-att-href="product.get('website_url')"
+                                                    target="_blank"
+                                                    class="text-decoration-none books_name_href">
+                                                    <div class="books_name"
+                                                        t-out="product.get('name')" />
+                                                </a>
+                                                <div class="div_price" style="color: #D2AB66;"
+                                                    t-out="product.get('price')" />
+                                                <div class="book_description"
+                                                    style="-webkit-line-clamp: 3; -webkit-box-orient: vertical; display: -webkit-box; overflow: hidden; text-overflow: ellipsis; margin-top: 20px;">
+                                                    <span t-out="product.get('description_sale')" />
+                                                </div>
+                                            </div>
+                                            <div style="flex-grow: 1;"></div>
+                                            <div class="slide_order_forth">
+                                                <button type="button" role="button"
+                                                    class="btn btn-primary add_to_cart ml-auto"
+                                                    title="Order Now">
+                                                    <input type="hidden" name="csrf_token"
+                                                        t-att-data-product-id="product.get('prod_prod_id')"
+                                                        t-att-value="request.csrf_token()" />
+                                                    <i style="font-weight: bold; font-style: normal;">
+                                                        Request Now
+                                                    </i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <!--                    </t>-->
+                    </div>
+                </div>
+                <div class="right_nxt_button">
+                    <button
+                        class="js_slide_next_forth fa fa-chevron-right tp-icon-center-forth dr-p-icon_forth shadow">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

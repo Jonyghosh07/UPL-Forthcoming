@@ -1,0 +1,28 @@
+<odoo>
+
+    <record id="view_product_forthcoming_tree" model="ir.ui.view">
+        <field name="name">view.product.forthcoming.tree</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="is_forthcoming" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Form view for "model" -->
+    <record id="view_product_forthcoming_form" model="ir.ui.view">
+        <field name="name">view.product.forthcoming.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//label[@for='purchase_ok']" position="after">        
+                <field name="is_forthcoming"/>
+                <label for="is_forthcoming"/>
+            </xpath>
+        </field>
+    </record>
+    
+    
+    </odoo>

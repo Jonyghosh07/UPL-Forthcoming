@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="email_template_product_request_state_request" model="mail.template">
+            <field name="name">Product Request State : Request</field>
+            <field name="model_id" ref="meta_request_button.model_product_requests"/>
+            <field name="subject">${object.website_id.name} Product Request for ${object.product_id.name}.</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="email_cc">Baatighar &lt;contact@baatighar.com&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        <br></br>
+                        <br></br>
+                        প্রিয় ${object.partner_id.name},
+                        % if object.partner_id.parent_id:
+                        (${object.partner_id.parent_id.name})
+                        % endif
+                        <br/>
+                        <br/>
+                        % if object.state == 'request':
+                            বাংলাদেশের বইয়ের সাম্রাজ্য – বাতিঘর এ আপনাকে স্বাগতম। সম্প্রতি বাতিঘর ডট কম- এ আমরা আপনার
+                            "${object.product_id.name}" বইটির "${object.quantity}" কপি সংগ্রহের জন্য অনুরোধ পেয়েছি।
+                            % if object.product_categ == "Local":
+                                বইটি প্রকাশনায় মুদ্রিত থাকা সাপেক্ষে ৩-৭ দিনের মধ্যে সংগ্রহ করে দেয়া যাবে।
+                            % else:
+                                বইটি প্রকাশনায় মুদ্রিত থাকা সাপেক্ষে ৪-৮ সপ্তাহের মধ্যে সংগ্রহ করে দেয়া যাবে। বইটি সংগ্রহের
+                                অনুরোধ জানাতে অগ্রিম অর্থ পরিশোধ করার প্রয়োজন হতে পারে।
+                            % endif
+                            <br></br>
+                            বাতিঘর ডট কম এর বিক্রয় প্রতিনিধি দ্রুত আপনার সাথে যোগাযোগ করবে।
+                            <br></br>
+
+
+                        % elif object.state == 'ready':
+                            বাংলাদেশের বইয়ের সাম্রাজ্য – বাতিঘর এ আপনাকে স্বাগতম। সম্প্রতি বাতিঘর ডট কম- এ আমরা আপনার
+                            "${object.product_id.name}" বইটির "${object.quantity}" কপি সংগ্রহের জন্য অনুরোধ পেয়েছি।
+                            আমাদের বিক্রয় প্রতিনিধি আপনার সাথে যোগাযোগ করে অনুরোধটি নিশ্চিত করেছেন।
+                            আমরা দ্রুত অনুরোধকৃত বইটি সংগ্রহ করে পৌছে দিব আপনার হাতে।
+
+
+
+                        % elif object.state == 'done':
+                            বাংলাদেশের বইয়ের সাম্রাজ্য – বাতিঘর এ আপনাকে স্বাগতম। সম্প্রতি বাতিঘর ডট কম- এ আমরা
+                            আপনার "${object.product_id.name}" বইটির "${object.quantity}" কপি সংগ্রহের জন্য
+                            অনুরোধ পেয়েছিলাম। আমাদের বিক্রয় প্রতিনিধি আপনার সাথে যোগাযোগ করে অনুরোধটি নিশ্চিত
+                            করেছিলেন। আশা করছি বইটি ইতমধ্যে আপনার হাতে পৌছে গেছে।
+
+
+
+                        % elif object.state == 'cancel':
+                            বাংলাদেশের বইয়ের সাম্রাজ্য – বাতিঘর এ আপনাকে স্বাগতম। সম্প্রতি বাতিঘর ডট কম- এ আমরা আপনার
+                            "${object.product_id.name}" বইটির "${object.quantity}" কপি সংগ্রহের জন্য অনুরোধ পেয়েছি।
+                            তবে ${object.remarks.name}
+                            <br></br>
+                            উপরোক্ত সমস্যার জন্য আমরা আন্তরিকভাবে দুঃখিত। ভবিষ্যতে আপনার প্রিয় বই সংগ্রহে সবসময় পাশে থাকতে
+                            চায় বাতিঘর।
+                        % endif
+
+
+                        <br></br>
+                        যে কোন প্রয়োজনে যোগাযোগ করুন: +8801737317841 (সকাল ১০টা থেকে রাত ১০টা)
+                        <br></br>
+                        আপনার প্রিয় বই সংগ্রহের বাতিঘরের সাথেই থাকুন।
+                        <br></br>
+                        বাতিঘর ডট কম
+                        <br></br>
+                        baatighar.com.
+                        <br></br>
+                    </p>
+                </div>
+            </field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

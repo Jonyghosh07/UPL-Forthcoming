@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="sms_conf_view_inherit" model="ir.ui.view">
+        <field name="name">sms.settings.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="meta_sms_mod.sms_conf_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//footer" position="before">
+                <group>
+                    <label for="request_ready_order"/>
+                    <b>
+                        <field name="request_ready_order"/>
+                    </b>
+                </group>
+                <group attrs="{'invisible': [('request_ready_order', '!=', True)]}">
+                    <label for="request_ready_order_content"/>
+                    <b>
+                        <field name="request_ready_order_content"/>
+                    </b>
+                </group>
+                <group>
+                    <label for="request_done_order"/>
+                    <b>
+                        <field name="request_done_order"/>
+                    </b>
+                </group>
+                <group attrs="{'invisible': [('request_done_order', '!=', True)]}">
+                    <label for="request_done_order_content"/>
+                    <b>
+                        <field name="request_done_order_content"/>
+                    </b>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

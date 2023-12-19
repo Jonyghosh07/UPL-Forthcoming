@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="product_request" inherit_id="website_sale.product">
+        <xpath expr="//a[@id='add_to_cart']" position="replace">
+            <t t-if="product.is_request_product==True">
+                <t t-if="product.categ_id.parent_id">
+                    <input type="hidden" class="product_categ" name="product_categ"
+                        t-att-value="product.categ_id.parent_id.name" />
+                </t>
+                <t t-else="">
+                    <input type="hidden" class="product_categ" name="product_categ"
+                        t-att-value="product.categ_id.name" />
+                </t>
+                <input type="hidden" class="product_name" name="product_name"
+                    t-att-value="product.name" />
+
+                <a role="button" id="add_to_request"
+                    class="btn btn-primary btn-lg mt16 js_request_product d-block d-sm-inline-block"
+                    href="#">
+                    <i
+                        class="fa fa-bookmark" /> Request </a>
+            </t>
+            <t t-else="">
+                <a role="button" id="add_to_cart" t-if="product.is_pre_order == False"
+                    class="btn btn-primary btn-lg mt16 js_check_product a-submit d-block d-sm-inline-block"
+                    href="#">
+                    <i class="fa fa-shopping-cart" /> Add to Cart </a>
+            </t>
+        </xpath>
+    </template>
+
+    <!--    portal-->
+    <template id="portal_request_entry" name="My Portal Request Entry">
+        <a t-att-href="url" t-att-title="title"
+            class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
+            <t t-esc="title" />
+            <!--            <span class="badge badge-secondary badge-pill" t-esc="count"/>-->
+        </a>
+    </template>
+    <template id="portal_my_home_requests" name="Portal My Home : request entries" inherit_id="portal.portal_my_home" priority="34">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="meta_request_button.portal_request_entry">
+                <t t-set="title">My Requests</t>
+                <t t-set="url" t-value="'/my/request'" />
+                <!--                <t t-set="count" t-value="invoice_count"/>-->
+            </t>
+        </xpath>
+    </template>
+    <template id="portal_my_request" name="My Product Requests">
+        <t t-call="portal.portal_layout">
+            <t t-call="web.html_container">
+                <t t-set="breadcrumbs_searchbar" t-value="True" />
+
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Requests</t>
+                </t>
+                <t t-if="not requests">
+                    <p>There are currently no requests for your account.</p>
+                </t>
+                <t t-if="requests" t-call="portal.portal_table">
+                    <thead>
+                        <tr class="active">
+                            <th>Book</th>
+                            <th>Author</th>
+                            <th>Quantity</th>
+                            <th class='d-none d-md-table-cell'>Date of Request</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="requests" t-as="request">
+                            <tr>
+                                <td>
+                                    <a t-att-href="'/my/request/order/%s' % request.id"
+                                        role="button">
+                                        <!--                                <a
+                                        t-att-href="request.product_id.product_tmpl_id.website_url">-->
+                                        <!--                                   t-att-title="request.product_id.name">-->
+                                        <t t-esc="request.product_id.name"
+                                            t-if="request.product_id.name != '/'" />
+                                    </a>
+                                </td>
+                                <td>
+                                    <span t-field="request.product_author_id.name" />
+                                </td>
+                                <td>
+                                    <span t-field="request.quantity" />
+                                </td>
+                                <td>
+                                    <span t-esc="(request.create_date).strftime('%d-%m-%Y')" />
+                                    <br></br>
+                                    <span t-esc="request_create_time" />
+                                </td>
+                                <td>
+                                    <span t-field="request.state" />
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="req_order_portal_template" name="My Request">
+        <t t-call="portal.portal_layout">
+            <div class="card pb-5">
+                <div class="card-body" style="margin-left:50px;font-size: 20px;">
+                    <div class="row">
+                        <div class="mb-3 col-6">
+                            <strong>Book Name:</strong>
+                            <span>
+                                <t t-esc="product_name" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-6">
+                            <strong>Book Author:</strong>
+                            <span>
+                                <t t-esc="product_author" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-6">
+                            <strong>Quantity:</strong>
+                            <t t-esc="'%.0f'%  quantity" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-6">
+                            <strong>State:</strong>
+                            <t t-if="state=='request'">
+                                <span>Requested</span>
+                            </t>
+                            <t t-elif="state=='confirm'">
+                                <span>Confirmed</span>
+                            </t>
+                            <t t-elif="state=='ready'">
+                                <span>Can Be Fulfilled</span>
+                            </t>
+                            <t t-elif="state=='done'">
+                                <span>Fulfilled</span>
+                            </t>
+                            <t t-elif="state=='cancel'">
+                                <span>Cancelled</span>
+                            </t>
+                        </div>
+                    </div>
+                    <t t-if="state=='request'">
+                        <div class="row">
+                            <div class="mb-3 col-6">
+                                <a t-att-href="'/my/request/cancel/%s' % request_order.id"
+                                    role="button"
+                                    class="ribbon btn btn-secondary"
+                                    t-att-title="cancel">
+                                    <span>Cancel</span>
+                                </a>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-if="state=='cancel'">
+                        <div class="row">
+                            <div class="mb-3 col-6">
+                                <strong>Remarks :</strong>
+                                <span>
+                                    <t t-esc="request_order.remarks.name" />
+                                </span>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
